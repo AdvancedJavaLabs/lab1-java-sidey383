@@ -1,32 +1,72 @@
 Times for 10 vertices and 50 connections: 
 Serial: 0
-Parallel: 0
+Parallel Stream: 1
+Parallel ForkJoinPool: 1
+Fixed Thread Pool: 4
+Fork join pool executor: 0
+Virtual pool executor: 4
 --------
 Times for 100 vertices and 500 connections: 
 Serial: 0
-Parallel: 0
+Parallel Stream: 1
+Parallel ForkJoinPool: 2
+Fixed Thread Pool: 2
+Fork join pool executor: 2
+Virtual pool executor: 0
 --------
 Times for 1000 vertices and 5000 connections: 
 Serial: 1
-Parallel: 0
+Parallel Stream: 4
+Parallel ForkJoinPool: 4
+Fixed Thread Pool: 2
+Fork join pool executor: 2
+Virtual pool executor: 1
 --------
 Times for 10000 vertices and 50000 connections: 
-Serial: 3
-Parallel: 0
+Serial: 8
+Parallel Stream: 25
+Parallel ForkJoinPool: 7
+Fixed Thread Pool: 14
+Fork join pool executor: 10
+Virtual pool executor: 10
 --------
 Times for 10000 vertices and 100000 connections: 
 Serial: 2
-Parallel: 0
+Parallel Stream: 11
+Parallel ForkJoinPool: 6
+Fixed Thread Pool: 10
+Fork join pool executor: 7
+Virtual pool executor: 6
 --------
 Times for 50000 vertices and 1000000 connections: 
-Serial: 30
-Parallel: 0
+Serial: 41
+Parallel Stream: 17
+Parallel ForkJoinPool: 16
+Fixed Thread Pool: 24
+Fork join pool executor: 15
+Virtual pool executor: 16
 --------
 Times for 100000 vertices and 1000000 connections: 
-Serial: 18
-Parallel: 0
+Serial: 42
+Parallel Stream: 27
+Parallel ForkJoinPool: 23
+Fixed Thread Pool: 27
+Fork join pool executor: 23
+Virtual pool executor: 25
 --------
 Times for 1000000 vertices and 10000000 connections: 
-Serial: 307
-Parallel: 0
+Serial: 778
+Parallel Stream: 286
+Parallel ForkJoinPool: 262
+Fixed Thread Pool: 456
+Fork join pool executor: 223
+Virtual pool executor: 287
+--------
+Times for 2000000 vertices and 10000000 connections: 
+Serial: 926
+Parallel Stream: 576
+Parallel ForkJoinPool: 436
+Fixed Thread Pool: 444
+Fork join pool executor: 462
+Virtual pool executor: 429
 --------

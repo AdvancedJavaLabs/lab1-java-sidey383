@@ -4,11 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.function.BiFunction;
-import java.util.stream.IntStream;
+import java.util.function.BiConsumer;
 
 public class BFSTest {
 
@@ -23,11 +20,19 @@ public class BFSTest {
                 System.out.println("Generating graph of size " + sizes[i] + " ...wait");
                 Graph g = new RandomGraphGenerator().generateGraph(r, sizes[i], connections[i]);
                 System.out.println("Generation completed!\nStarting bfs");
-                long serialTime = executeSerialBfsAndGetTime(g);
-                long parallelTime = executeParallelBfsAndGetTime(g);
+                long serialTime = executeAndGetTime(g, Graph::bfs);
+                long parallelStreamTime = executeAndGetTime(g, Graph::parallelStreamBfs);
+                long forkJoinPoolTime = executeAndGetTime(g, Graph::forkJoinPoolBfs);
+                long fixedThreadPoolTime = executeAndGetTime(g, Graph::fixedThreadPoolBfs);
+                long forkJoinPoolExecutorTime = executeAndGetTime(g, Graph::forkJoinPoolExecutorBfs);
+                long virtualPoolExecutorTime = executeAndGetTime(g, Graph::virtualPoolExecutorBfs);
                 fw.append("Times for " + sizes[i] + " vertices and " + connections[i] + " connections: ");
                 fw.append("\nSerial: " + serialTime);
-                fw.append("\nParallel: " + parallelTime);
+                fw.append("\nParallel Stream: " + parallelStreamTime);
+                fw.append("\nParallel ForkJoinPool: " + forkJoinPoolTime);
+                fw.append("\nFixed Thread Pool: " + fixedThreadPoolTime);
+                fw.append("\nFork join pool executor: " + forkJoinPoolExecutorTime);
+                fw.append("\nVirtual pool executor: " + virtualPoolExecutorTime);
                 fw.append("\n--------\n");
             }
             fw.flush();
@@ -35,16 +40,9 @@ public class BFSTest {
     }
 
 
-    private long executeSerialBfsAndGetTime(Graph g) {
+    private long executeAndGetTime(Graph g, BiConsumer<Graph, Integer> consumer) {
         long startTime = System.currentTimeMillis();
-        g.bfs(0);
-        long endTime = System.currentTimeMillis();
-        return endTime - startTime;
-    }
-
-    private long executeParallelBfsAndGetTime(Graph g) {
-        long startTime = System.currentTimeMillis();
-        g.parallelBFS(0);
+        consumer.accept(g, 0);
         long endTime = System.currentTimeMillis();
         return endTime - startTime;
     }
