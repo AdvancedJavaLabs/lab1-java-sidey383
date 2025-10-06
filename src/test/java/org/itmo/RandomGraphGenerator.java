@@ -1,10 +1,6 @@
 package org.itmo;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.SplittableRandom;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
@@ -150,4 +146,26 @@ public class RandomGraphGenerator {
         }
         return g;
     }
+
+    List<Set<Integer>> getGraphSlices(Graph g, int startVertex) {
+        List<Set<Integer>> slices = new ArrayList<>();
+        boolean[] visited = new boolean[g.vertexCount()];
+        visited[startVertex] = true;
+
+        Set<Integer> nextSlice = Set.of(startVertex);
+        do {
+            slices.add(Collections.unmodifiableSet(nextSlice));
+            nextSlice = new HashSet<>();
+            for (int node : slices.getLast()) {
+                for (int nextNode : g.edgeList(node)) {
+                    if (!visited[nextNode]) {
+                        visited[nextNode] = true;
+                        nextSlice.add(nextNode);
+                    }
+                }
+            }
+        } while (!nextSlice.isEmpty());
+        return slices;
+    }
+
 }

@@ -2,12 +2,21 @@ package org.itmo;
 
 import org.itmo.bfs.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BFSTest {
 
@@ -58,6 +67,100 @@ public class BFSTest {
         algorithm.execute(g, 0, null);
         long endTime = System.currentTimeMillis();
         return endTime - startTime;
+    }
+
+    public static Stream<Arguments> allVertexVisitedText() {
+        RandomGraphGenerator generator = new RandomGraphGenerator();
+        Random random = new Random(42);
+        return Stream.of(
+                generator.generateGraph(random, 10_000, 60_000),
+                generator.generateGraph(random, 20_000, 30_000),
+                generator.generateGraph(random, 10_000, 100_000)
+        ).flatMap(graph -> Stream.of(
+                        new SequentialBFS(),
+                        new ParallelStreamBFS(),
+                        new ForkJoinPoolBFS(),
+                        new FixedThreadPoolBFS(4),
+                        new FixedThreadPoolBFS(8),
+                        new FixedThreadPoolBFS(16),
+                        new ForkJoinPoolExecutorBFS(),
+                        new VirtualThreadPoolBFS()
+                ).map(algorithm -> Arguments.arguments(graph, algorithm))
+        );
+    }
+
+    @MethodSource
+    @ParameterizedTest
+    public void allVertexVisitedText(Graph graph, BreadthFirstSearch algorithm) {
+        ConcurrentLinkedQueue<Integer> visitedElements = new ConcurrentLinkedQueue<>();
+        algorithm.execute(graph, 0, visitedElements::add);
+        assertThat(visitedElements)
+                .containsExactlyInAnyOrderElementsOf(
+                        IntStream.range(0, graph.vertexCount()).boxed().toList()
+                );
+    }
+
+
+    public static Stream<Arguments> isCorrectOrderTest() {
+        RandomGraphGenerator generator = new RandomGraphGenerator();
+        Random random = new Random(42);
+        return Stream.of(
+                generator.generateGraph(random, 1_000, 6_000),
+                generator.generateGraph(random, 2_000, 3_000),
+                generator.generateGraph(random, 1_000, 10_000)
+        ).flatMap(graph -> Stream.of(
+                        new SequentialBFS(),
+                        new ParallelStreamBFS(),
+                        new ForkJoinPoolBFS(),
+                        new FixedThreadPoolBFS(4),
+                        new FixedThreadPoolBFS(8),
+                        new FixedThreadPoolBFS(16),
+                        new ForkJoinPoolExecutorBFS(),
+                        new VirtualThreadPoolBFS()
+                ).map(algorithm -> Arguments.arguments(graph, generator.getGraphSlices(graph, 0), algorithm))
+        );
+    }
+
+
+    @MethodSource
+    @ParameterizedTest
+    public void isCorrectOrderTest(Graph graph, List<Set<Integer>> nodeSlices, BreadthFirstSearch algorithm) {
+        AtomicInteger sliceNum = new AtomicInteger();
+        AtomicReference<Set<Integer>> currentSlice = new AtomicReference<>();
+        currentSlice.set(Collections.synchronizedSet(new HashSet<>(nodeSlices.get(sliceNum.getAndIncrement()))));
+        AtomicBoolean isFail = new AtomicBoolean(false);
+        algorithm.execute(graph, 0, (node) -> {
+            Set<Integer> s = currentSlice.get();
+            // When can't found node in current slice - make synchronization
+            if (!s.remove(node)) {
+                synchronized (this) {
+                    if (!s.isEmpty()) {
+                        // Can't found node in slice
+                        isFail.set(true);
+                        return;
+                    }
+                    // Current slice is empty, change slice
+
+                    // When somebody already change slice
+                    if (currentSlice.get() == s) {
+                        // Change slice
+                        if (sliceNum.get() < nodeSlices.size()) {
+                            currentSlice.set(Collections.synchronizedSet(new HashSet<>(nodeSlices.get(sliceNum.getAndIncrement()))));
+                        } else {
+                            // No more slices
+                            isFail.set(true);
+                        }
+                    }
+                    if (!currentSlice.get().remove(node)) {
+                        //Can't found value in new slice
+                        isFail.set(true);
+                    }
+                }
+            }
+        });
+        assertThat(isFail.get()).isEqualTo(false);
+        assertThat(sliceNum.get()).isEqualTo(nodeSlices.size());
+        assertThat(currentSlice.get()).isEmpty();
     }
 
 }
