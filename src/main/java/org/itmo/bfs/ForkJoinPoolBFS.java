@@ -8,6 +8,7 @@ import java.util.Spliterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class ForkJoinPoolBFS implements BreadthFirstSearch {
@@ -15,15 +16,16 @@ public class ForkJoinPoolBFS implements BreadthFirstSearch {
     @Override
     public void execute(Graph graph, int startVertex, Consumer<Integer> consumer) {
         final Consumer<Integer> finalConsumer;
-        finalConsumer = Objects.requireNonNullElseGet(consumer, () -> (i) -> {});
+        finalConsumer = Objects.requireNonNullElseGet(consumer, () -> (i) -> {
+        });
 
-        boolean[] visited = new boolean[graph.vertexCount()];
+        AtomicBoolean[] visited = BFSUtils.createAtomicBooleanArray(graph.vertexCount());
 
         ConcurrentLinkedQueue<Integer> queue = new ConcurrentLinkedQueue<>();
 
         try (ForkJoinPool pool = new ForkJoinPool()) {
 
-            visited[startVertex] = true;
+            visited[startVertex].set(true);
             finalConsumer.accept(startVertex);
             queue.add(startVertex);
 
@@ -45,12 +47,12 @@ public class ForkJoinPoolBFS implements BreadthFirstSearch {
     private static class BFSForkJoinTask extends RecursiveTask<Collection<Integer>> {
 
         private final Graph graph;
-        private final boolean[] visited;
+        private final AtomicBoolean[] visited;
         private final Spliterator<Integer> currentNodes;
         private final Collection<Integer> collector;
         private final Consumer<Integer> consumer;
 
-        public BFSForkJoinTask(Graph graph, boolean[] visited, Spliterator<Integer> currentNodes, Collection<Integer> collector, Consumer<Integer> consumer) {
+        public BFSForkJoinTask(Graph graph, AtomicBoolean[] visited, Spliterator<Integer> currentNodes, Collection<Integer> collector, Consumer<Integer> consumer) {
             this.graph = graph;
             this.visited = visited;
             this.currentNodes = currentNodes;
@@ -81,8 +83,7 @@ public class ForkJoinPoolBFS implements BreadthFirstSearch {
         private void syncCompute() {
             currentNodes.forEachRemaining(node -> graph.edgeList(node)
                     .forEach(newNode -> {
-                                if (!visited[newNode]) {
-                                    visited[newNode] = true;
+                                if (visited[newNode].compareAndSet(false, true)) {
                                     consumer.accept(newNode);
                                     collector.add(newNode);
                                 }

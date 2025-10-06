@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
@@ -31,12 +32,12 @@ public abstract class ExecutorServiceBFS implements BreadthFirstSearch {
         final Consumer<Integer> finalConsumer;
         finalConsumer = Objects.requireNonNullElseGet(consumer, () -> (i) -> {});
 
-        boolean[] visited = new boolean[graph.vertexCount()];
+        AtomicBoolean[] visited = BFSUtils.createAtomicBooleanArray(graph.vertexCount());
 
         List<Integer> nodes = new ArrayList<>();
 
 
-        visited[startVertex] = true;
+        visited[startVertex].set(true);
         finalConsumer.accept(startVertex);
         nodes.add(startVertex);
 
@@ -59,14 +60,13 @@ public abstract class ExecutorServiceBFS implements BreadthFirstSearch {
         }
     }
 
-    private <T extends Collection<Integer>> T runExecutedTask(Graph graph, boolean[] visited, List<Integer> nodes, T collector, int part, int totalPartCount, Consumer<Integer> consumer) {
+    private <T extends Collection<Integer>> T runExecutedTask(Graph graph, AtomicBoolean[] visited, List<Integer> nodes, T collector, int part, int totalPartCount, Consumer<Integer> consumer) {
         int start = (int) ((long) nodes.size() * part / totalPartCount);
         int end = (int) ((long) nodes.size() * (part + 1) / totalPartCount);
         for (int i = start; i < end; i++) {
             int node = nodes.get(i);
             graph.edgeList(node).forEach(newNode -> {
-                        if (!visited[newNode]) {
-                            visited[newNode] = true;
+                        if (visited[newNode].compareAndSet(false, true)) {
                             consumer.accept(newNode);
                             collector.add(newNode);
                         }
