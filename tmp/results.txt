@@ -1,72 +1,100 @@
 Times for 10 vertices and 50 connections: 
-Serial: 0
-Parallel Stream: 1
-Parallel ForkJoinPool: 1
-Fixed Thread Pool: 4
-Fork join pool executor: 0
-Virtual pool executor: 4
+Sequential: 1
+Parallelism with stream parallel: 2
+Fork join pool with recursive task: 2
+Fixed thread pool with 4 threads: 3
+Fixed thread pool with 8 threads: 1
+Fixed thread pool with 16 threads: 0
+Fork join pool as executor service: 1
+Virtual thread pool: 3
 --------
 Times for 100 vertices and 500 connections: 
-Serial: 0
-Parallel Stream: 1
-Parallel ForkJoinPool: 2
-Fixed Thread Pool: 2
-Fork join pool executor: 2
-Virtual pool executor: 0
+Sequential: 0
+Parallelism with stream parallel: 1
+Fork join pool with recursive task: 1
+Fixed thread pool with 4 threads: 1
+Fixed thread pool with 8 threads: 1
+Fixed thread pool with 16 threads: 1
+Fork join pool as executor service: 0
+Virtual thread pool: 1
 --------
 Times for 1000 vertices and 5000 connections: 
-Serial: 1
-Parallel Stream: 4
-Parallel ForkJoinPool: 4
-Fixed Thread Pool: 2
-Fork join pool executor: 2
-Virtual pool executor: 1
+Sequential: 1
+Parallelism with stream parallel: 3
+Fork join pool with recursive task: 2
+Fixed thread pool with 4 threads: 1
+Fixed thread pool with 8 threads: 2
+Fixed thread pool with 16 threads: 3
+Fork join pool as executor service: 0
+Virtual thread pool: 1
 --------
 Times for 10000 vertices and 50000 connections: 
-Serial: 8
-Parallel Stream: 25
-Parallel ForkJoinPool: 7
-Fixed Thread Pool: 14
-Fork join pool executor: 10
-Virtual pool executor: 10
+Sequential: 7
+Parallelism with stream parallel: 14
+Fork join pool with recursive task: 15
+Fixed thread pool with 4 threads: 10
+Fixed thread pool with 8 threads: 8
+Fixed thread pool with 16 threads: 6
+Fork join pool as executor service: 4
+Virtual thread pool: 5
 --------
 Times for 10000 vertices and 100000 connections: 
-Serial: 2
-Parallel Stream: 11
-Parallel ForkJoinPool: 6
-Fixed Thread Pool: 10
-Fork join pool executor: 7
-Virtual pool executor: 6
+Sequential: 4
+Parallelism with stream parallel: 3
+Fork join pool with recursive task: 5
+Fixed thread pool with 4 threads: 4
+Fixed thread pool with 8 threads: 4
+Fixed thread pool with 16 threads: 5
+Fork join pool as executor service: 4
+Virtual thread pool: 5
 --------
 Times for 50000 vertices and 1000000 connections: 
-Serial: 41
-Parallel Stream: 17
-Parallel ForkJoinPool: 16
-Fixed Thread Pool: 24
-Fork join pool executor: 15
-Virtual pool executor: 16
+Sequential: 28
+Parallelism with stream parallel: 15
+Fork join pool with recursive task: 13
+Fixed thread pool with 4 threads: 16
+Fixed thread pool with 8 threads: 13
+Fixed thread pool with 16 threads: 12
+Fork join pool as executor service: 13
+Virtual thread pool: 13
 --------
 Times for 100000 vertices and 1000000 connections: 
-Serial: 42
-Parallel Stream: 27
-Parallel ForkJoinPool: 23
-Fixed Thread Pool: 27
-Fork join pool executor: 23
-Virtual pool executor: 25
+Sequential: 30
+Parallelism with stream parallel: 36
+Fork join pool with recursive task: 24
+Fixed thread pool with 4 threads: 20
+Fixed thread pool with 8 threads: 22
+Fixed thread pool with 16 threads: 24
+Fork join pool as executor service: 24
+Virtual thread pool: 25
 --------
 Times for 1000000 vertices and 10000000 connections: 
-Serial: 778
-Parallel Stream: 286
-Parallel ForkJoinPool: 262
-Fixed Thread Pool: 456
-Fork join pool executor: 223
-Virtual pool executor: 287
+Sequential: 426
+Parallelism with stream parallel: 332
+Fork join pool with recursive task: 243
+Fixed thread pool with 4 threads: 213
+Fixed thread pool with 8 threads: 232
+Fixed thread pool with 16 threads: 273
+Fork join pool as executor service: 251
+Virtual thread pool: 246
 --------
 Times for 2000000 vertices and 10000000 connections: 
-Serial: 926
-Parallel Stream: 576
-Parallel ForkJoinPool: 436
-Fixed Thread Pool: 444
-Fork join pool executor: 462
-Virtual pool executor: 429
+Sequential: 807
+Parallelism with stream parallel: 583
+Fork join pool with recursive task: 463
+Fixed thread pool with 4 threads: 390
+Fixed thread pool with 8 threads: 433
+Fixed thread pool with 16 threads: 491
+Fork join pool as executor service: 470
+Virtual thread pool: 461
+--------
+Times for 2000000 vertices and 100000000 connections: 
+Sequential: 2021
+Parallelism with stream parallel: 784
+Fork join pool with recursive task: 604
+Fixed thread pool with 4 threads: 679
+Fixed thread pool with 8 threads: 636
+Fixed thread pool with 16 threads: 620
+Fork join pool as executor service: 615
+Virtual thread pool: 658
 --------
