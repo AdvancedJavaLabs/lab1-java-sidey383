@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.20"
+    java
     application
 }
 
@@ -11,17 +12,39 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("org.openjdk.jcstress:jcstress-core:0.16")
+    testAnnotationProcessor("org.openjdk.jcstress:jcstress-core:0.16")
 }
 
 tasks.test {
     useJUnitPlatform()
+    maxHeapSize = "8G"
+    minHeapSize = "4G"
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(21)
 }
 
 application {
     mainClass.set("MainKt")
 }
+
+// JCStress runner task: runs JCStress tests located on the test runtime classpath
+// Use: ./gradlew jcstress [-PjcstressArgs="-v -m quick"]
+tasks.register<JavaExec>("jcstress") {
+    group = "verification"
+    description = "Run JCStress stress tests"
+    mainClass.set("org.openjdk.jcstress.Main")
+    classpath = sourceSets.test.get().runtimeClasspath
+    dependsOn("testClasses")
+
+    val argsProp = project.findProperty("jcstressArgs") as String?
+    if (!argsProp.isNullOrBlank()) {
+        args = argsProp.split("\\s+".toRegex())
+    }
+}
+

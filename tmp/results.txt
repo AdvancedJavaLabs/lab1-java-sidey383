@@ -1,32 +1,120 @@
 Times for 10 vertices and 50 connections: 
-Serial: 0
-Parallel: 0
+Sequential: minTime = 0, averageTime = 0, maxTime = 1
+Parallelism with stream parallel: minTime = 0, averageTime = 0, maxTime = 3
+Fork join pool with recursive task: minTime = 1, averageTime = 1, maxTime = 1
+Fixed thread pool with 1 threads: minTime = 0, averageTime = 0, maxTime = 4
+Fixed thread pool with 2 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 4 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 8 threads: minTime = 0, averageTime = 0, maxTime = 6
+Fixed thread pool with 16 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fork join pool as executor service: minTime = 0, averageTime = 0, maxTime = 1
+Virtual thread pool: minTime = 0, averageTime = 0, maxTime = 4
 --------
 Times for 100 vertices and 500 connections: 
-Serial: 0
-Parallel: 0
+Sequential: minTime = 0, averageTime = 0, maxTime = 1
+Parallelism with stream parallel: minTime = 0, averageTime = 0, maxTime = 1
+Fork join pool with recursive task: minTime = 1, averageTime = 1, maxTime = 3
+Fixed thread pool with 1 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 2 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 4 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 8 threads: minTime = 0, averageTime = 0, maxTime = 2
+Fixed thread pool with 16 threads: minTime = 0, averageTime = 0, maxTime = 2
+Fork join pool as executor service: minTime = 0, averageTime = 0, maxTime = 1
+Virtual thread pool: minTime = 0, averageTime = 0, maxTime = 1
 --------
 Times for 1000 vertices and 5000 connections: 
-Serial: 1
-Parallel: 0
+Sequential: minTime = 0, averageTime = 0, maxTime = 2
+Parallelism with stream parallel: minTime = 0, averageTime = 1, maxTime = 2
+Fork join pool with recursive task: minTime = 2, averageTime = 2, maxTime = 4
+Fixed thread pool with 1 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 2 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 4 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 8 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fixed thread pool with 16 threads: minTime = 0, averageTime = 0, maxTime = 1
+Fork join pool as executor service: minTime = 0, averageTime = 0, maxTime = 1
+Virtual thread pool: minTime = 0, averageTime = 0, maxTime = 1
 --------
 Times for 10000 vertices and 50000 connections: 
-Serial: 3
-Parallel: 0
+Sequential: minTime = 1, averageTime = 2, maxTime = 4
+Parallelism with stream parallel: minTime = 2, averageTime = 2, maxTime = 4
+Fork join pool with recursive task: minTime = 4, averageTime = 4, maxTime = 5
+Fixed thread pool with 1 threads: minTime = 2, averageTime = 4, maxTime = 6
+Fixed thread pool with 2 threads: minTime = 1, averageTime = 1, maxTime = 2
+Fixed thread pool with 4 threads: minTime = 1, averageTime = 1, maxTime = 2
+Fixed thread pool with 8 threads: minTime = 2, averageTime = 2, maxTime = 3
+Fixed thread pool with 16 threads: minTime = 2, averageTime = 2, maxTime = 3
+Fork join pool as executor service: minTime = 2, averageTime = 2, maxTime = 4
+Virtual thread pool: minTime = 2, averageTime = 2, maxTime = 3
 --------
 Times for 10000 vertices and 100000 connections: 
-Serial: 2
-Parallel: 0
+Sequential: minTime = 0, averageTime = 1, maxTime = 2
+Parallelism with stream parallel: minTime = 2, averageTime = 2, maxTime = 4
+Fork join pool with recursive task: minTime = 2, averageTime = 3, maxTime = 4
+Fixed thread pool with 1 threads: minTime = 3, averageTime = 5, maxTime = 7
+Fixed thread pool with 2 threads: minTime = 1, averageTime = 1, maxTime = 3
+Fixed thread pool with 4 threads: minTime = 1, averageTime = 1, maxTime = 3
+Fixed thread pool with 8 threads: minTime = 2, averageTime = 2, maxTime = 3
+Fixed thread pool with 16 threads: minTime = 2, averageTime = 2, maxTime = 3
+Fork join pool as executor service: minTime = 2, averageTime = 2, maxTime = 3
+Virtual thread pool: minTime = 2, averageTime = 2, maxTime = 3
 --------
 Times for 50000 vertices and 1000000 connections: 
-Serial: 30
-Parallel: 0
+Sequential: minTime = 51, averageTime = 52, maxTime = 55
+Parallelism with stream parallel: minTime = 17, averageTime = 18, maxTime = 20
+Fork join pool with recursive task: minTime = 15, averageTime = 19, maxTime = 33
+Fixed thread pool with 1 threads: minTime = 22, averageTime = 24, maxTime = 27
+Fixed thread pool with 2 threads: minTime = 12, averageTime = 13, maxTime = 18
+Fixed thread pool with 4 threads: minTime = 8, averageTime = 11, maxTime = 15
+Fixed thread pool with 8 threads: minTime = 13, averageTime = 14, maxTime = 15
+Fixed thread pool with 16 threads: minTime = 14, averageTime = 14, maxTime = 15
+Fork join pool as executor service: minTime = 14, averageTime = 14, maxTime = 15
+Virtual thread pool: minTime = 14, averageTime = 14, maxTime = 17
 --------
 Times for 100000 vertices and 1000000 connections: 
-Serial: 18
-Parallel: 0
+Sequential: minTime = 60, averageTime = 65, maxTime = 73
+Parallelism with stream parallel: minTime = 28, averageTime = 29, maxTime = 30
+Fork join pool with recursive task: minTime = 28, averageTime = 29, maxTime = 31
+Fixed thread pool with 1 threads: minTime = 117, averageTime = 121, maxTime = 129
+Fixed thread pool with 2 threads: minTime = 58, averageTime = 63, maxTime = 66
+Fixed thread pool with 4 threads: minTime = 33, averageTime = 38, maxTime = 46
+Fixed thread pool with 8 threads: minTime = 32, averageTime = 34, maxTime = 36
+Fixed thread pool with 16 threads: minTime = 31, averageTime = 33, maxTime = 35
+Fork join pool as executor service: minTime = 30, averageTime = 31, maxTime = 33
+Virtual thread pool: minTime = 30, averageTime = 31, maxTime = 33
 --------
 Times for 1000000 vertices and 10000000 connections: 
-Serial: 307
-Parallel: 0
+Sequential: minTime = 811, averageTime = 839, maxTime = 877
+Parallelism with stream parallel: minTime = 284, averageTime = 351, maxTime = 617
+Fork join pool with recursive task: minTime = 266, averageTime = 288, maxTime = 329
+Fixed thread pool with 1 threads: minTime = 904, averageTime = 1039, maxTime = 1183
+Fixed thread pool with 2 threads: minTime = 471, averageTime = 515, maxTime = 583
+Fixed thread pool with 4 threads: minTime = 304, averageTime = 339, maxTime = 370
+Fixed thread pool with 8 threads: minTime = 279, averageTime = 292, maxTime = 373
+Fixed thread pool with 16 threads: minTime = 278, averageTime = 291, maxTime = 347
+Fork join pool as executor service: minTime = 277, averageTime = 288, maxTime = 356
+Virtual thread pool: minTime = 278, averageTime = 302, maxTime = 354
+--------
+Times for 2000000 vertices and 10000000 connections: 
+Sequential: minTime = 623, averageTime = 692, maxTime = 923
+Parallelism with stream parallel: minTime = 472, averageTime = 504, maxTime = 589
+Fork join pool with recursive task: minTime = 478, averageTime = 496, maxTime = 541
+Fixed thread pool with 1 threads: minTime = 1658, averageTime = 1743, maxTime = 1914
+Fixed thread pool with 2 threads: minTime = 838, averageTime = 912, maxTime = 1178
+Fixed thread pool with 4 threads: minTime = 511, averageTime = 565, maxTime = 765
+Fixed thread pool with 8 threads: minTime = 495, averageTime = 507, maxTime = 548
+Fixed thread pool with 16 threads: minTime = 498, averageTime = 520, maxTime = 621
+Fork join pool as executor service: minTime = 503, averageTime = 520, maxTime = 610
+Virtual thread pool: minTime = 501, averageTime = 540, maxTime = 734
+--------
+Times for 2000000 vertices and 100000000 connections: 
+Sequential: minTime = 4706, averageTime = 4858, maxTime = 5215
+Parallelism with stream parallel: minTime = 1597, averageTime = 1711, maxTime = 1974
+Fork join pool with recursive task: minTime = 1546, averageTime = 1657, maxTime = 1796
+Fixed thread pool with 1 threads: minTime = 11567, averageTime = 11811, maxTime = 12412
+Fixed thread pool with 2 threads: minTime = 5974, averageTime = 6343, maxTime = 6495
+Fixed thread pool with 4 threads: minTime = 3399, averageTime = 3561, maxTime = 3775
+Fixed thread pool with 8 threads: minTime = 2170, averageTime = 2239, maxTime = 2341
+Fixed thread pool with 16 threads: minTime = 1746, averageTime = 2047, maxTime = 2484
+Fork join pool as executor service: minTime = 1651, averageTime = 1757, maxTime = 1997
+Virtual thread pool: minTime = 1645, averageTime = 1717, maxTime = 1753
 --------
