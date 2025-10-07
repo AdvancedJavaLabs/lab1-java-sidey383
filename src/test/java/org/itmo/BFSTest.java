@@ -29,6 +29,8 @@ public class BFSTest {
                 new SequentialBFS(),
                 new ParallelStreamBFS(),
                 new ForkJoinPoolBFS(),
+                new FixedThreadPoolBFS(1),
+                new FixedThreadPoolBFS(2),
                 new FixedThreadPoolBFS(4),
                 new FixedThreadPoolBFS(8),
                 new FixedThreadPoolBFS(16),
@@ -49,10 +51,10 @@ public class BFSTest {
                         .append(" connections: ")
                         .append('\n');
                 for (BreadthFirstSearch algorithm : bfs) {
-                    long time = executeAndGetTime(g, algorithm);
+                    TimerResult results = executeAndGetTime(g, algorithm);
                     fw.append(algorithm.description())
                             .append(": ")
-                            .append(String.valueOf(time))
+                            .append(results.resultsAdString())
                             .append('\n');
                 }
                 fw.append("--------\n");
@@ -61,12 +63,38 @@ public class BFSTest {
         }
     }
 
+    private record TimerResult(
+            long averageTime,
+            long minTime,
+            long maxTime
+    ) {
 
-    private long executeAndGetTime(Graph g, BreadthFirstSearch algorithm) {
-        long startTime = System.currentTimeMillis();
-        algorithm.execute(g, 0, null);
-        long endTime = System.currentTimeMillis();
-        return endTime - startTime;
+        String resultsAdString() {
+            return "minTime = %d, averageTime = %d, maxTime = %d".formatted(minTime, averageTime, maxTime);
+        }
+
+    }
+
+    private TimerResult executeAndGetTime(Graph g, BreadthFirstSearch algorithm) {
+        final long executeCount = 10;
+        long averageTime = 0;
+        long minTime = Long.MAX_VALUE;
+        long maxTime = 0;
+        for (int i = 0; i < 10; i++) {
+            long startTime = System.currentTimeMillis();
+            algorithm.execute(g, 0, null);
+            long endTime = System.currentTimeMillis();
+            long time = endTime - startTime;
+            averageTime += time;
+            if (minTime > time) {
+                minTime = time;
+            }
+            if (maxTime < time) {
+                maxTime = time;
+            }
+        }
+        averageTime /= executeCount;
+        return new TimerResult(averageTime, minTime, maxTime);
     }
 
     public static Stream<Arguments> allVertexVisitedText() {
