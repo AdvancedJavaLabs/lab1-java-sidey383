@@ -63,6 +63,46 @@ public class BFSTest {
         }
     }
 
+    @Test
+    public void threadCountTimeTest() throws IOException {
+        final int size = 2_000_000;
+        final int numEdges = 100_000_000;
+        Random r = new Random(42);
+        Graph g = new RandomGraphGenerator().generateGraph(r, size, numEdges);
+        Collection<BreadthFirstSearch> bfs = List.of(
+                new SequentialBFS(),
+                new FixedThreadPoolBFS(1),
+                new FixedThreadPoolBFS(2),
+                new FixedThreadPoolBFS(6),
+                new FixedThreadPoolBFS(8),
+                new FixedThreadPoolBFS(12),
+                new FixedThreadPoolBFS(16),
+                new FixedThreadPoolBFS(24),
+                new FixedThreadPoolBFS(32)
+        );
+        try (FileWriter fw = new FileWriter("tmp/thread_count_results.txt")) {
+            fw.append("Times for ")
+                    .append(String.valueOf(size))
+                    .append(" vertices and ")
+                    .append(String.valueOf(numEdges))
+                    .append(" connections: ")
+                    .append('\n');
+            for (BreadthFirstSearch algorithm : bfs) {
+                System.out.println("--------------------------");
+                System.out.println("Run " + algorithm.description());
+
+                TimerResult results = executeAndGetTime(g, algorithm);
+                fw.append(algorithm.description())
+                        .append(": ")
+                        .append(results.resultsAdString())
+                        .append('\n');
+
+                System.out.println("--------------------------");
+            }
+            fw.flush();
+        }
+    }
+
     private record TimerResult(
             long averageTime,
             long minTime,
